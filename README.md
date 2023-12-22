@@ -10,3 +10,7 @@ pip install -r requirements.txt
 streamlit run 1_Gemini_Pro.py
 ```
 
+## UI Demo
+<img src="resource/1.png" >
+<img src="resource/2.png" >
+<img src="resource/3.png" >

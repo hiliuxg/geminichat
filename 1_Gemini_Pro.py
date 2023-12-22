@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 st.title("Chat To XYthing")
-st.caption("A Chatbot, Your AI Asistant, Powered By Google Gemini Pro.")
+st.caption("a chatbot, powered by google gemini pro.")
 
 
 if "app_key" not in st.session_state:
