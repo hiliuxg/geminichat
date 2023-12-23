@@ -1,6 +1,6 @@
 
 ## Gemini ChatBot
-A Chatbot, Your AI Asistant, Powered By Google Gemini Pro And UI Is Maked By Streamlit.
+A chatbot, powered by google gemini pro , gemini pro vision and ui is maked by streamlit.
 
 https://geminichat.streamlit.app/
 
