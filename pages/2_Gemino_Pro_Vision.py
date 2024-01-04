@@ -64,6 +64,8 @@ if "app_key" in st.session_state:
     uploaded_file = st.file_uploader("choose a pic...", type=["jpg", "png", "jpeg", "gif"], label_visibility='collapsed', on_change = clear_state)
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
+        width, height = image.size
+        resized_img = image.resize((128, int(height/(width/128))), Image.LANCZOS)
         st.image(image)    
 
 if len(st.session_state.history_pic) == 0 and image is not None:
@@ -86,7 +88,7 @@ if len(st.session_state.history_pic) == 0 and image is not None:
 1. <写入问题1>
 2. <写入问题2>
 3. <写入问题3>"""
-    show_message(prompt, image, "Reading the image...")
+    show_message(prompt, resized_img, "Reading the image...")
     
 else:
     for item in st.session_state.history_pic:
@@ -104,4 +106,4 @@ if "app_key" in st.session_state:
                 st.session_state.history_pic.append({"role": "user", "text": prompt})
             
             prompt_plus = f'基于该图片，回答用户问题  \n用户问题："""{prompt}"""'
-            show_message(prompt_plus, image, "Thinking...")
+            show_message(prompt_plus, resized_img, "Thinking...")
