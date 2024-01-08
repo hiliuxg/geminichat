@@ -68,35 +68,13 @@ if "app_key" in st.session_state:
         resized_img = image.resize((128, int(height/(width/128))), Image.LANCZOS)
         st.image(image)    
 
-if len(st.session_state.history_pic) == 0 and image is not None:
-    prompt = """##### 角色
-你是一位出色的影像解读者，擅长从图片中解读细节并能为其创作详尽的描述。你也会提供三个问题，引导用户向你提问题。
-##### 任务
-###### 任务1: 图片解读和描述
-- 分析图片，挖掘图片背后的故事以及图片展现出来的氛围和意境。
-- 基于图片内容，创作出详尽、引人入胜的文字描述。
-###### 任务2: 创建问题
-- 基于图片内容，背后的故事以及图片展现出来的氛围和意境，提供三个问题，助用户更好的向你提问。
-- 问题类别包括但不限于如何基于该图片创作故事、生成微信朋友圈描述、微信公众号文章，小红书推文或商品详细页面。
-##### 要求
-- 描述与图片应紧密相连，不偏离图片本身的内容。
-- 描述应尽可能详实，使读者能通过文字理解图片的魅力。
-##### 输出格式
-<写入图片描述>
-
-接下来，您可以向我提问以下问题：
-1. <写入问题1>
-2. <写入问题2>
-3. <写入问题3>"""
-    show_message(prompt, resized_img, "Reading the image...")
-    
-else:
+if len(st.session_state.history_pic) > 0:
     for item in st.session_state.history_pic:
         with st.chat_message(item["role"]):
             st.markdown(item["text"])
 
 if "app_key" in st.session_state:
-    if prompt := st.chat_input(""):
+    if prompt := st.chat_input("desc this picture"):
         if image is None:
             st.warning("Please upload an image first", icon="⚠️")
         else:
@@ -105,5 +83,4 @@ if "app_key" in st.session_state:
                 st.markdown(prompt)
                 st.session_state.history_pic.append({"role": "user", "text": prompt})
             
-            prompt_plus = f'基于该图片，回答用户问题  \n用户问题："""{prompt}"""'
-            show_message(prompt_plus, resized_img, "Thinking...")
+            show_message(prompt, resized_img, "Thinking...")
