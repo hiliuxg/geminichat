@@ -6,14 +6,14 @@ import random
 from utils import SAFETY_SETTTINGS
 
 st.set_page_config(
-    page_title="Chat To XYthing",
+    page_title="Chat To ZenBot",
     page_icon="🔥",
     menu_items={
         'About': "# Make by hiliuxg"
     }
 )
 
-st.title('Upload Image And Ask')
+st.title('Upload PDF')
 
 if "app_key" not in st.session_state:
     app_key = st.text_input("Your Gemini App Key", type='password')
@@ -61,7 +61,7 @@ if "history_pic" not in st.session_state:
 
 image = None
 if "app_key" in st.session_state:
-    uploaded_file = st.file_uploader("choose a pic...", type=["jpg", "png", "jpeg", "gif"], label_visibility='collapsed', on_change = clear_state)
+    uploaded_file = st.file_uploader("choose a file...", type=["pdf"], label_visibility='collapsed', on_change = clear_state)
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         width, height = image.size
@@ -74,9 +74,9 @@ if len(st.session_state.history_pic) > 0:
             st.markdown(item["text"])
 
 if "app_key" in st.session_state:
-    if prompt := st.chat_input("desc this picture"):
+    if prompt := st.chat_input(" "):
         if image is None:
-            st.warning("Please upload an image first", icon="⚠️")
+            st.warning("Please upload first", icon="⚠️")
         else:
             prompt = prompt.replace('\n', '  \n')
             with st.chat_message("user"):
