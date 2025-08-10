@@ -1,3 +1,3 @@
-streamlit
-openai
-toml
+streamlit=1.48.0
+openai=1.99.6
+toml=0.10.2
