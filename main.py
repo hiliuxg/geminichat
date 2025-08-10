@@ -54,9 +54,9 @@ if "system_prompt" not in st.session_state:
 if "history" not in st.session_state:
     st.session_state.history = []
 if "temperature" not in st.session_state:
-    st.session_state.temperature = 0.7
+    st.session_state.temperature = 0.1
 if "top_p" not in st.session_state:
-    st.session_state.top_p = 1.0
+    st.session_state.top_p = 0.4
 
 # Model selection in sidebar
 with st.sidebar:
