@@ -7,38 +7,38 @@ st.set_page_config(
     page_title="Chat To XYthing",
     page_icon="🔥",
     menu_items={
-        'About': "# Make By hiliuxg"
+        'About': "# Made By hiliuxg"
     }
 )
 
 st.title("Chat To XYthing")
 st.caption("a chatbot, powered by multiple LLMs.")
 
-# 读取配置文件
+# Read configuration file
 import toml
 config = toml.load(".streamlit/secrets.toml")
 
-# 添加秘钥验证状态
+# Add authentication state
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-# 秘钥验证界面
+# Authentication interface
 if not st.session_state.authenticated:
-    st.markdown("### 🔐 请输入秘钥以继续")
-    secret_key = st.text_input("秘钥", type="password", placeholder="请输入秘钥...")
+    st.markdown("### 🔐 Please enter the access key to continue")
+    secret_key = st.text_input("Access Key", type="password", placeholder="Enter access key...")
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("验证", type="primary", use_container_width=True):
+        if st.button("Verify", type="primary", use_container_width=True):
             if secret_key == config.get("access", {}).get("access_key", ""):
                 st.session_state.authenticated = True
                 st.rerun()
             else:
-                st.error("❌ 秘钥错误，请重试")
+                st.error("❌ Invalid access key, please try again")
     
     st.stop()
 
-# 以下是原有的聊天界面代码，只有在验证通过后才会执行
+# The following chat interface code will only execute after authentication
 models_config = config.get("models", {})
 
 # Initialize session state variables
@@ -74,14 +74,14 @@ with st.sidebar:
     st.divider()
     
     # Model parameters
-    st.subheader("Model Settting")
+    st.subheader("Model Settings")
     temperature = st.slider(
         "Temperature",
         min_value=0.0,
         max_value=2.0,
         value=st.session_state.temperature,
         step=0.1,
-        help="控制输出的随机性，值越高输出越随机"
+        help="Controls the randomness of the output, higher values produce more random results"
     )
     st.session_state.temperature = temperature
     
@@ -91,7 +91,7 @@ with st.sidebar:
         max_value=1.0,
         value=st.session_state.top_p,
         step=0.1,
-        help="控制输出token的累积概率阈值"
+        help="Controls the cumulative probability threshold for output tokens"
     )
     st.session_state.top_p = top_p
     
@@ -100,7 +100,7 @@ with st.sidebar:
         "System Prompt",
         value=st.session_state.system_prompt,
         height=300,
-        help="设置AI助手的系统提示词，用于定义AI的行为和角色"
+        help="Set the system prompt for the AI assistant to define its behavior and role"
     )
     st.session_state.system_prompt = system_prompt
     
@@ -141,7 +141,7 @@ if "app_key" in st.session_state:
             message_placeholder.markdown("Thinking...")
             try:
                 full_response = ""
-                # 构建包含system prompt的消息列表
+                # Build message list including system prompt
                 messages = []
                 if st.session_state.system_prompt:
                     messages.append({"role": "system", "content": st.session_state.system_prompt})
@@ -177,7 +177,7 @@ if "app_key" in st.session_state:
 
                         full_response += reasoning_content
 
-                    ## 开始正文
+                    # Start main content
                     content = chunk.choices[0].delta.content
                     if content:
                         if start_thing:
