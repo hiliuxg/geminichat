@@ -129,7 +129,7 @@ for message in st.session_state.history:
 
 if "app_key" in st.session_state:
     if prompt := st.chat_input(""):
-        prompt = prompt.replace('\n', '  \n')
+        prompt = prompt.replace('\n', '  \n')        
         # Add user message to history
         st.session_state.history.append({"role": "user", "content": prompt})
         
@@ -163,15 +163,15 @@ if "app_key" in st.session_state:
                         reasoning_content = chunk.choices[0].delta.reasoning_content
                     except:
                         reasoning_content = None
-                        
+
                     if reasoning_content:
                         if not start_think:
                             full_response += ">"
                             start_think = True
 
                         if has_start:
-                             full_response += ">"
-                             has_start = False
+                            full_response += ">"
+                            has_start = False
 
                         if reasoning_content.startswith("  \n") or reasoning_content.startswith("\n"):
                             has_start = True
