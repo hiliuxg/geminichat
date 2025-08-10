@@ -1,5 +1,4 @@
 
-
 from numpy import full
 import streamlit as st
 from openai import OpenAI
@@ -15,10 +14,31 @@ st.set_page_config(
 st.title("Chat To XYthing")
 st.caption("a chatbot, powered by multiple LLMs.")
 
-
-# Read model configurations from config.toml
+# 读取配置文件
 import toml
 config = toml.load(".streamlit/secrets.toml")
+
+# 添加秘钥验证状态
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# 秘钥验证界面
+if not st.session_state.authenticated:
+    st.markdown("### 🔐 请输入秘钥以继续")
+    secret_key = st.text_input("秘钥", type="password", placeholder="请输入秘钥...")
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("验证", type="primary", use_container_width=True):
+            if secret_key == config.get("access", {}).get("access_key", ""):
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("❌ 秘钥错误，请重试")
+    
+    st.stop()
+
+# 以下是原有的聊天界面代码，只有在验证通过后才会执行
 models_config = config.get("models", {})
 
 # Initialize session state variables
@@ -54,7 +74,7 @@ with st.sidebar:
     st.divider()
     
     # Model parameters
-    st.subheader("Model Parameters")
+    st.subheader("Model Settting")
     temperature = st.slider(
         "Temperature",
         min_value=0.0,
@@ -75,14 +95,11 @@ with st.sidebar:
     )
     st.session_state.top_p = top_p
     
-    st.divider()
-    
     # System prompt
-    st.subheader("System Prompt")
     system_prompt = st.text_area(
-        "Set system prompt",
+        "System Prompt",
         value=st.session_state.system_prompt,
-        height=100,
+        height=300,
         help="设置AI助手的系统提示词，用于定义AI的行为和角色"
     )
     st.session_state.system_prompt = system_prompt
