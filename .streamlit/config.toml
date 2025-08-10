@@ -1,2 +1,9 @@
 [server]
 maxUploadSize=10
+
+[models]
+# Model configurations: name = ["api_key", "base_url", "model_name"]
+deepseek-reasoner = ["sk-6eb04e79c648481e810d6c5db093d83c", "https://api.deepseek.com", "deepseek-reasoner"]
+chatglm = ["0dc85d1e964b4f398216dd2957bee478.1mI7DBagDyxBfFBa", "https://open.bigmodel.cn/api/paas/v4/", "glm-4.5"]
+deepseek-chat = ["sk-6eb04e79c648481e810d6c5db093d83c", "https://api.deepseek.com", "deepseek-chat"]
+
