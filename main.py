@@ -156,14 +156,18 @@ if "app_key" in st.session_state:
                     top_p=st.session_state.top_p,
                 )
 
-                start_thing = False
+                start_think = False
                 has_start = False
                 for chunk in response:
-                    reasoning_content = chunk.choices[0].delta.reasoning_content
+                    try:
+                        reasoning_content = chunk.choices[0].delta.reasoning_content
+                    except:
+                        reasoning_content = None
+                        
                     if reasoning_content:
-                        if not start_thing:
+                        if not start_think:
                             full_response += ">"
-                            start_thing = True
+                            start_think = True
 
                         if has_start:
                              full_response += ">"
@@ -180,9 +184,9 @@ if "app_key" in st.session_state:
                     # Start main content
                     content = chunk.choices[0].delta.content
                     if content:
-                        if start_thing:
+                        if start_think:
                             full_response += "  \n  \n"
-                            start_thing = False
+                            start_think = False
                         full_response += content
                     
                     message_placeholder.markdown(full_response + "_")
